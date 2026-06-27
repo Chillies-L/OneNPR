@@ -1,0 +1,19 @@
+# Keep Unity text assets and source files stable across platforms.
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.cs text eol=lf
+*.md text eol=lf
+*.asset text eol=lf
+*.mat text eol=lf
+*.meta text eol=lf
+*.json text eol=lf
+*.gitignore text eol=lf
+
+# Binary Unity assets, if added later.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.psd binary
+*.fbx binary
+*.obj text eol=lf

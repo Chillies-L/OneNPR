@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aafc385f294c43f58be437355d8d47db, type: 3}
+  m_Name: BoldInkComic
+  m_EditorClassIdentifier: 
+  displayName: "Bold Ink Comic（粗线彩色漫画）"
+  styleKind: 0
+  material:
+    baseColor: {r: 1, g: 0.92, b: 0.72, a: 1}
+    firstShadeColor: {r: 0.64, g: 0.56, b: 0.72, a: 1}
+    secondShadeColor: {r: 0.22, g: 0.18, b: 0.34, a: 1}
+    autoShadeColor: 1
+    firstShadeTint: {r: 0.86, g: 0.7, b: 1, a: 1}
+    secondShadeTint: {r: 0.38, g: 0.26, b: 0.68, a: 1}
+    shadeSaturation: 0.72
+    litColorBoost: 0.2
+    baseStep: 0.58
+    baseFeather: 0.004
+    shadeStep: 0.33
+    shadeFeather: 0.003
+    useVirtualLight: 1
+    virtualLightDirection: {x: 0.2, y: 0.88, z: 0.42, w: 0}
+    lightColorInfluence: 0.05
+    ambientStrength: 0.08
+    additionalLightInfluence: 0.03
+    specularColor: {r: 1, g: 1, b: 1, a: 1}
+    specularSize: 0.075
+    specularFeather: 0.003
+    specularIntensity: 1.25
+    rimColor: {r: 0.75, g: 0.95, b: 1, a: 1}
+    rimPower: 2.2
+    rimThreshold: 0.46
+    rimFeather: 0.014
+    rimLightAlign: 0.34
+    rimIntensity: 0.75
+    outlineWidth: 0.011
+    outlineColor: {r: 0, g: 0, b: 0, a: 1}
+    outlineMode: 2
+    outlineMinWidth: 0.0002
+    outlineMaxWidth: 0.095
+    outlineMiterStrength: 1
+    outlineMiterMinDot: 0.35
+    outlineMiterMaxScale: 1.8
+    outlineUseVertexColorNormals: 1
+    outlineVertexColorNormalFormat: 0
+    outlineVertexNormalBlend: 1
+    outlineRenderReversePass: 1
+    outlineReverseWidthScale: 0.62
+    outlineReverseZOffset: 0
+    outlineUseWorldShell: 1
+    outlineDirectionalBias: 0
+    outlineBiasDirection: {x: 1, y: 1, z: 0, w: 0}
+    outlineZOffset: 0.035
+  postProcess:
+    enabled: 1
+    posterizeStrength: 0.82
+    contrast: 1.34
+    saturation: 1.38
+    shadowCrush: 0.22
+    halftoneStrength: 0.18
+    halftoneScale: 68
+    accentColor: {r: 0.1, g: 0.85, b: 1, a: 1}
+

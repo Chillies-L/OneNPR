@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aafc385f294c43f58be437355d8d47db, type: 3}
+  m_Name: GraphicActionAnime
+  m_EditorClassIdentifier: 
+  displayName: "Graphic Action Anime（热血图形动画）"
+  styleKind: 1
+  material:
+    baseColor: {r: 0.95, g: 0.87, b: 0.76, a: 1}
+    firstShadeColor: {r: 0.55, g: 0.32, b: 0.3, a: 1}
+    secondShadeColor: {r: 0.11, g: 0.06, b: 0.08, a: 1}
+    autoShadeColor: 0.85
+    firstShadeTint: {r: 1, g: 0.45, b: 0.28, a: 1}
+    secondShadeTint: {r: 0.42, g: 0.05, b: 0.08, a: 1}
+    shadeSaturation: 0.55
+    litColorBoost: 0.16
+    baseStep: 0.54
+    baseFeather: 0.006
+    shadeStep: 0.27
+    shadeFeather: 0.004
+    useVirtualLight: 1
+    virtualLightDirection: {x: -0.25, y: 0.82, z: 0.5, w: 0}
+    lightColorInfluence: 0.06
+    ambientStrength: 0.06
+    additionalLightInfluence: 0.02
+    specularColor: {r: 1, g: 0.95, b: 0.82, a: 1}
+    specularSize: 0.052
+    specularFeather: 0.004
+    specularIntensity: 1.65
+    rimColor: {r: 1, g: 0.28, b: 0.05, a: 1}
+    rimPower: 2
+    rimThreshold: 0.42
+    rimFeather: 0.012
+    rimLightAlign: 0.28
+    rimIntensity: 1.35
+    outlineWidth: 0.0095
+    outlineColor: {r: 0.015, g: 0.01, b: 0.012, a: 1}
+    outlineMode: 2
+    outlineMinWidth: 0.0002
+    outlineMaxWidth: 0.09
+    outlineMiterStrength: 1
+    outlineMiterMinDot: 0.35
+    outlineMiterMaxScale: 1.8
+    outlineUseVertexColorNormals: 1
+    outlineVertexColorNormalFormat: 0
+    outlineVertexNormalBlend: 1
+    outlineRenderReversePass: 1
+    outlineReverseWidthScale: 0.56
+    outlineReverseZOffset: 0
+    outlineUseWorldShell: 1
+    outlineDirectionalBias: 0.12
+    outlineBiasDirection: {x: 1, y: -0.35, z: 0, w: 0}
+    outlineZOffset: 0.028
+  postProcess:
+    enabled: 1
+    posterizeStrength: 0.88
+    contrast: 1.48
+    saturation: 1.18
+    shadowCrush: 0.36
+    halftoneStrength: 0
+    halftoneScale: 84
+    accentColor: {r: 1, g: 0.24, b: 0.02, a: 1}
+
