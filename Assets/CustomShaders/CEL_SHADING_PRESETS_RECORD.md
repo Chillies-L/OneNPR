@@ -1,75 +1,36 @@
-# Cel Shading Presets Record
+# Cel Shading Presets
 
-Date: 2026-06-23
-Unity: 2022.3.60f1c1
-Pipeline: URP 14.0.12
+本文件记录 OneNPR 当前可用的材质预设（Material Presets）和资源化风格预设（Style Preset Assets）。这些预设用于快速建立稳定的卡通角色效果，使用后仍建议按模型材质、光照和相机距离进行微调。
 
-## Goal
+## 材质预设
 
-Add reusable cel-shading preset options for the existing `Custom/NPR/Toon_Character_ImprovedOutline` shader so a material can move toward an anime/cel look without importing external source textures or reference assets.
+材质预设由 `ToonMaterialPreset.cs` 提供，只写入材质参数，不会同步后处理参数。
 
-The implementation controls shader parameters only. It does not replace the need for geometry, silhouettes, UVs, vertex-color normal data, or authored facial/hair/clothing line meshes when those details are required.
+- `Soft Anime Cel（柔和赛璐璐）`：柔和阴影、较轻描边，适合通用动漫角色。
+- `Hard Ink Cel（硬边墨线）`：硬边阴影和更强线条，适合需要明确轮廓的模型。
+- `High Contrast Mono（黑白高对比）`：黑白漫画方向，适合高对比展示。
+- `Warm Comic Cel（暖色漫画）`：暖色阴影和深色描边，适合暖光或纸面漫画方向。
+- `Procedural Background Cel（程序化背景）`：弱描边、柔和阴影，适合背景物体或非主体模型。
+- `Bold Ink Comic（粗线彩色漫画）`：粗线、强色彩、网点后处理倾向。
+- `Graphic Action Anime（热血图形动画）`：高对比暗部、强边缘光、动作动画方向。
 
-## Files
+## 资源化风格预设
 
-- `Assets/CustomShaders/ToonMaterialPreset.cs`
-  - Defines `ToonMaterialPresetKind`.
-  - Stores the preset names shown in the material inspector.
-  - Applies all preset parameters through one tested API.
-- `Assets/CustomShaders/Editor/ToonShaderGUI.cs`
-  - Replaces the old hard-coded quick preset buttons with a preset dropdown.
-  - Adds quick buttons for the two most useful anime/cel variants.
-  - Supports applying one preset to multiple selected materials.
-- `Assets/CustomShaders/Editor/ToonMaterialPresetTests.cs`
-  - Verifies that the preset API writes expected material values.
-  - Verifies that preset names are exposed for the inspector dropdown.
+资源化风格预设位于 `Assets/CustomShaders/Presets`。它们会同时写入材质参数，并同步更新已安装的 `NPRStylePostProcessFeature` 后处理参数。
 
-## Preset Options
+- `BoldInkComic.asset`：粗线彩色漫画方向，默认启用网点图案化效果。
+- `GraphicActionAnime.asset`：热血图形动画方向，强调高对比、强边缘光和更直接的暗部压缩。
 
-`Soft Anime Cel (柔和赛璐璐)` is the closest default for the provided reference image. It keeps auto shade coloring on, uses a stable virtual key light, moderately hard shadow bands, dark but not pure-black outline color, and restrained rim/specular values.
+## 材质替换配置
 
-`Hard Ink Cel (硬边墨线)` increases band hardness and outline strength. Use it when the model needs stronger line-art separation.
+`MAN.asset` 和 `Suntone.asset` 是 `NPRMaterialReplacementProfile`（材质替换配置）资源，供 `NPRMaterialReplacerWindow` 批量替换模型材质使用。
 
-`High Contrast Mono (黑白高对比)` keeps the older black-and-white dramatic look but moves it into the shared preset system.
+- `MAN.asset`：默认使用 `Hard Ink Cel（硬边墨线）`。
+- `Suntone.asset`：默认使用 `Warm Comic Cel（暖色漫画）`。
 
-`Warm Comic Cel (暖色漫画)` keeps the older warm comic palette for materials that need a print/comic direction.
+## 使用建议
 
-`Procedural Background Cel (程序化背景)` reduces outline width and softens shading. It is meant for simple generated background meshes, sky cards, water cards, or terrain-like shapes so the background stays behind the character visually.
-
-## Rollback
-
-The pre-change snapshot is stored at:
-
-```text
-_codex_backups/20260623-174434-cel-shading-presets
-```
-
-See:
-
-```text
-_codex_backups/20260623-174434-cel-shading-presets/RESTORE.md
-```
-
-## Usage
-
-1. Select a material using `Custom/NPR/Toon_Character_ImprovedOutline`.
-2. In the material inspector, open `预设选项 (Preset Options)`.
-3. Choose a style from `风格预设 (Style Preset)`.
-4. Click `应用预设 (Apply Preset)`.
-5. Tune base color, outline width, shadow thresholds, and rim/specular values per model.
-
-The preset application does not clear texture slots. Existing `_BaseMap` and `_OutlineWidthMap` assignments are preserved.
-
-## Validation Notes
-
-Unity batchmode could not be run against the live project while another Unity Editor instance had the project open. Test validation was run from a temporary project copy. Do not pass `-quit` with `-runTests`; the Unity Test Framework exits the editor after writing results.
-
-```powershell
-& 'E:\Unity\2022.3.60f1c1\Editor\Unity.exe' -batchmode -nographics -projectPath . -runTests -testPlatform editmode -testFilter ToonMaterialPresetTests -testResults Logs\codex-toon-preset-results.xml -logFile Logs\codex-toon-preset-tests.log
-```
-
-Verified result from the temporary copy:
-
-```text
-ToonMaterialPresetTests: 2 total, 2 passed, 0 failed
-```
+1. 单个材质调试时，优先在材质 Inspector（检查器）中使用预设下拉菜单。
+2. 希望材质和后处理一起切换时，使用 `BoldInkComic.asset` 或 `GraphicActionAnime.asset`。
+3. 批量转换模型材质时，使用 `Tools > NPR > Material Replacer`，并选择对应的 `NPRMaterialReplacementProfile`。
+4. 预设不会替代模型本身的轮廓、UV、法线质量或贴图细节；对硬边模型建议配合 `NPR_NormalsSmoother`。

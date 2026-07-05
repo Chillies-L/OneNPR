@@ -15,7 +15,7 @@ public class ToonShaderGUI : ShaderGUI
 
     private bool showBaseColors = true;
     private bool showAnimePalette = true;
-    private bool showAiAssetMaps = true;
+    private bool showTextureMaps = true;
     private bool showShading = true;
     private bool showAnimeLight = true;
     private bool showSpecular = true;
@@ -37,7 +37,7 @@ public class ToonShaderGUI : ShaderGUI
 
         DrawBaseColorSection();
         DrawAnimePaletteSection();
-        DrawAiAssetMapSection();
+        DrawTextureMapSection();
         DrawShadingSection();
         DrawAnimeLightSection();
         DrawSpecularSection();
@@ -84,10 +84,10 @@ public class ToonShaderGUI : ShaderGUI
         EditorGUILayout.Space();
     }
 
-    private void DrawAiAssetMapSection()
+    private void DrawTextureMapSection()
     {
-        showAiAssetMaps = EditorGUILayout.BeginFoldoutHeaderGroup(showAiAssetMaps, "AI Asset Maps");
-        if (showAiAssetMaps)
+        showTextureMaps = EditorGUILayout.BeginFoldoutHeaderGroup(showTextureMaps, "贴图控制（Texture Maps）");
+        if (showTextureMaps)
         {
             EditorGUI.indentLevel++;
             DrawProperty("_ShadeMap", "Shade Map (阴影色贴图)");

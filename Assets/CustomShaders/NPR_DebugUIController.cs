@@ -97,7 +97,7 @@ public class NPR_DebugUIController : MonoBehaviour
         CreateToggleButton("showBaseColor", "基础颜色 (Base Color)", Color.white);
 
         // Add separator
-        // 添加分隔符
+        // 绘制分隔符
         CreateSeparator();
 
         // Window size slider

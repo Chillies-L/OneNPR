@@ -1,310 +1,98 @@
 # 故障排除指南 (Troubleshooting)
 
-## 已知问题和解决方案
+## 基础检查
 
-### ✅ 已修复：ShadowCaster编译错误
+遇到问题时建议先按以下顺序检查：
 
-**错误信息**:
-```
-Shader error: undeclared identifier 'LerpWhiteTo'
-```
+1. Console（控制台）是否有 C# 或 Shader 编译错误。
+2. 项目是否使用 URP（Universal Render Pipeline，通用渲染管线）14.x。
+3. 材质是否使用 `Custom/NPR/Toon_Character_ImprovedOutline`。
+4. URP Renderer Asset（URP 渲染器资源）中是否添加了需要的 Renderer Feature（渲染器特性）。
+5. 修改 Shader 或脚本后是否已重新导入资源或等待 Unity 编译完成。
 
-**原因**: URP 14.0版本中`Shadows.hlsl`的`ApplyShadowBias`函数依赖可能不存在的函数。
+## Shader 未找到
 
-**解决方案**: 已修改为自定义的简化阴影偏移实现（`ApplyShadowBiasSimple`），不依赖URP的内部函数。
+症状：
 
-**影响**: 阴影投射正常工作，可能在极端角度下有轻微的阴影失真（shadow acne），但对于卡通渲染影响极小。
-
----
-
-## 常见编译错误
-
-### 错误1: Shader未找到
-
-**症状**: 
-```
-Shader 'Custom/NPR/Toon_Character' not found
+```text
+Shader 'Custom/NPR/Toon_Character_ImprovedOutline' not found
 ```
 
-**解决方案**:
-1. 确认Shader文件在正确的路径：`Assets/CustomShaders/Toon_Character.shader`
-2. 在Unity中右键Shader文件 → Reimport
-3. 检查Console是否有编译错误
+处理：
 
----
+1. 确认 Shader 文件位于 `Assets/CustomShaders/Toon_Character_ImprovedOutline.shader`。
+2. 在 Unity 中右键 Shader 文件并选择 `Reimport`。
+3. 查看 Console 是否还有编译错误。
 
-### 错误2: Render Feature未显示
+## 材质显示品红色
 
-**症状**: Add Renderer Feature列表中没有NPR相关选项
+品红色通常表示 Shader 编译失败或当前渲染管线不兼容。
 
-**解决方案**:
-1. 检查C#脚本是否有编译错误（Console中查看）
-2. 确认文件名与类名一致
-3. 重启Unity Editor
-4. 检查脚本是否在Editor文件夹外（Render Feature不应在Editor文件夹）
+处理：
 
----
+1. 检查 Console 中的 Shader 错误。
+2. 确认项目正在使用 URP，而不是 Built-in Render Pipeline（内置渲染管线）。
+3. 确认 URP 版本接近 14.x。
+4. 重新导入 `Assets/CustomShaders`。
 
-### 错误3: 材质显示全粉色/品红色
+## Render Feature 不显示
 
-**症状**: 应用Toon Shader的材质显示为亮粉色
+如果 Add Renderer Feature 列表中没有 NPR 相关选项：
 
-**原因**: Shader编译失败
+1. 确认 C# 脚本没有编译错误。
+2. 确认 `NPRStylePostProcessFeature.cs` 和 `NPR_OutlineFeature.cs` 不在 `Editor` 文件夹内。
+3. 重启 Unity Editor（Unity 编辑器）。
 
-**解决方案**:
-1. 查看Console中的Shader错误
-2. 选中材质，查看Inspector中的错误提示
-3. 确认URP版本是14.x
-4. 检查Shader中的Include路径是否正确
+## 描边不显示
 
----
+法线外扩描边：
 
-### 错误4: 描边不显示
+- 增大 `Outline Width`。
+- 确认 `Outline Color` 的 Alpha 为 1。
+- 在简单 Sphere（球体）上测试，排除模型法线问题。
 
-**症状**: 材质应用后没有描边效果
+屏幕空间描边：
 
-**可能原因**:
-1. Outline Width设置太小
-2. Outline Color是透明的
-3. 模型法线问题
+- 确认 `NPR Style Post Process` 已添加到 URP Renderer Asset。
+- 确认 `Outline Enabled` 已开启。
+- 至少开启 `Use Depth` 或 `Use Normals`。
+- 降低 `Depth Threshold` 或 `Normal Threshold`。
 
-**解决方案**:
-```
-步骤1: 检查参数
-- Outline Width: 增大到0.01
-- Outline Color: 确认Alpha=1.0（不透明）
+## Debug 视图异常
 
-步骤2: 测试简单模型
-- 创建一个Unity Sphere
-- 应用材质
-- 如果Sphere有描边，说明是模型问题
+Depth（深度）全黑或全白：
 
-步骤3: 法线修复
-- 如果模型法线有问题，使用法线修复脚本
-- 或在建模软件中重新导出
-```
+- 调整相机 Near/Far Plane（近裁剪面 / 远裁剪面）。
+- 调整调试视图深度缩放。
 
----
+Normals（法线）几乎不变化：
 
-### 错误5: 屏幕空间描边无效
+- 确认目标 Shader 写入 DepthNormals Pass（深度法线通道）。
+- 更换模型或旋转相机验证法线视图。
 
-**症状**: 添加NPR Outline Feature后没有效果
+Sobel Edge（Sobel 边缘）过多或过少：
 
-**解决方案**:
-```
-步骤1: 检查Shader
-- 确认SobelOutline.shader编译无错误
-- 路径：Assets/CustomShaders/SobelOutline.shader
+- 过多：提高阈值。
+- 过少：降低阈值，并确认深度/法线输入可用。
 
-步骤2: 检查Feature设置
-- Outline Thickness > 0
-- 至少启用Use Depth或Use Normals
-- Render Pass Event: Before Rendering Post Processing
+## 后处理没有效果
 
-步骤3: 检查DepthNormals Pass
-- 确认Toon_Character.shader中的DepthNormals Pass无错误
-- 场景中至少有一个使用Toon Shader的物体
-```
-
----
-
-### 错误6: Debug窗口不显示
-
-**症状**: 添加Debug Visualization Feature后窗口不显示
-
-**解决方案**:
-```
-步骤1: 检查开关
-- 至少勾选一个Show窗口（Depth/Normals/Sobel/BaseColor）
-
-步骤2: 检查Shader
-- 确认DebugVisualization.shader编译无错误
-
-步骤3: 检查设置
-- Window Size不要设置为0
-- Position选择合适的位置
-
-步骤4: 运行游戏
-- 必须在Play模式下才能看到Debug窗口
-- Editor模式下不显示
-```
-
----
-
-### 错误7: 深度图全黑/全白
-
-**症状**: Debug窗口的深度图显示不正常
-
-**原因**: Depth Scale或相机设置问题
-
-**解决方案**:
-```
-1. 调整Depth Scale（1.0-10.0）
-2. 开启Linearize Depth
-3. 检查相机的Near/Far Plane设置
-   - Near: 0.1-0.3
-   - Far: 100-1000
-4. 确认场景中有物体渲染
-```
-
----
-
-### 错误8: 法线图全灰色
-
-**症状**: Debug窗口的法线图颜色单一
-
-**原因**: 法线数据未生成或全部朝向一致
-
-**解决方案**:
-```
-1. 确认Toon Shader的DepthNormals Pass正常
-2. 检查场景中物体是否正确渲染
-3. 旋转相机角度，观察法线图变化
-4. 尝试使用不同的模型（如Sphere、Capsule）测试
-```
-
----
-
-## URP版本兼容性
-
-### 推荐版本
-- Unity: 2022.3 LTS
-- URP: 14.0.x
-
-### 不同版本的调整
-
-**URP 12.x**:
-```csharp
-// 在NPR_OutlineFeature.cs中
-// 将 ScriptableRenderPassInput 改为旧版API
-ConfigureInput(ScriptableRenderPassInput.Depth);
-```
-
-**URP 17.x (Unity 6)**:
-```hlsl
-// 可能需要使用新的Render Graph API
-// 建议查阅Unity 6文档
-```
-
----
+1. 确认 `NPRStylePostProcessFeature.settings.enabled` 为 true。
+2. 至少开启 Outline、Color Grading 或 Pattern Shading 中的一项。
+3. 确认 `Hidden/NPR/StylePostProcess` Shader 可以被找到。
+4. 如果使用资源化风格预设，确认 `Active Preset` 指向 `BoldInkComic.asset` 或 `GraphicActionAnime.asset`。
 
 ## 性能问题
 
-### 问题: 帧率下降严重
+- 开发时可以打开 Debug Visualization（调试可视化），发布或展示时建议关闭。
+- 屏幕空间描边和图案化后处理会增加一次或多次 Blit（位块传输）成本。
+- 运行时 UI 面板会生成 UGUI（Unity UI）控件，展示时可折叠或关闭。
 
-**症状**: 开启Debug窗口后FPS明显下降
+## 兼容性
 
-**解决方案**:
-```
-1. 减小Window Size（推荐0.2-0.25）
-2. 关闭不需要的窗口
-3. 降低游戏分辨率
-4. 在Release版本中禁用Debug Feature
-```
+推荐环境：
 
----
+- Unity 2022.3 LTS
+- URP 14.x
 
-## Unity编辑器问题
-
-### 问题: Shader修改后不生效
-
-**解决方案**:
-```
-1. 保存Shader文件（Ctrl+S）
-2. 等待Unity自动重新编译
-3. 如果还不行，手动重新导入：
-   - 右键Shader文件
-   - Reimport
-4. 清除Shader缓存：
-   - Edit → Preferences → GI Cache → Clean Cache
-```
-
-### 问题: 脚本修改后不生效
-
-**解决方案**:
-```
-1. 检查Console是否有编译错误
-2. 停止Play模式
-3. 等待编译完成（右下角进度条）
-4. 如果还不行，重启Unity
-```
-
----
-
-## 报告常见问题
-
-### 问题: 截图分辨率太低
-
-**解决方案**:
-```
-方案1: 使用Game窗口截图
-- 设置较高的分辨率（1920x1080或更高）
-- 使用Windows截图工具（Win+Shift+S）
-
-方案2: 使用Unity Recorder
-- Window → General → Recorder → Recorder Window
-- 设置输出分辨率
-- 录制单帧截图
-```
-
-### 问题: Debug窗口位置不对
-
-**解决方案**:
-```
-在NPR_DebugVisualization Feature中调整：
-- Position: Top Right / Top Left / Bottom Right / Bottom Left
-- Window Size: 调整大小避免遮挡重要内容
-```
-
----
-
-## 快速诊断流程
-
-遇到问题时，按以下顺序检查：
-
-1. **Console检查**（最重要）
-   - 是否有编译错误？
-   - 是否有警告信息？
-
-2. **Shader检查**
-   - 选中材质，Inspector中是否显示Shader错误？
-   - 重新导入Shader
-
-3. **参数检查**
-   - 所有相关参数是否合理？
-   - 颜色的Alpha是否为1.0？
-   - 宽度/阈值是否太小？
-
-4. **场景检查**
-   - 是否有光源？
-   - 相机设置是否正确？
-   - 是否在Play模式下？
-
-5. **重启大法**
-   - 重新导入资源
-   - 重启Unity Editor
-   - 清除缓存
-
----
-
-## 联系与反馈
-
-如果遇到文档中未提及的问题：
-
-1. 记录错误信息（Console完整输出）
-2. 记录Unity版本和URP版本
-3. 记录复现步骤
-4. 截图错误现象
-
----
-
-## 版本历史
-
-### v1.0 (2026-06-18)
-- 初始版本
-- 修复ShadowCaster编译错误
-- 添加常见问题解答
-
----
-
-*大多数问题都可以通过查看Console错误信息和重新导入资源解决。*
+Unity 6 / URP 17.x 的 Render Graph（渲染图）路径可能需要额外适配。若迁移到新版 URP，优先检查 `ScriptableRendererFeature`、`RTHandle` 和 Blitter API（应用程序接口）的变化。

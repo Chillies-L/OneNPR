@@ -15,7 +15,7 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
         _ShadeSaturation("Shade Saturation Boost", Range(0,1)) = 0.25
         _LitColorBoost("Lit Color Boost", Range(0,0.5)) = 0.08
 
-        [Header(AI Asset Maps)]
+        [Header(Texture Control Maps)]
         _ShadeMap("Shade Map (Shadow Color Texture)", 2D) = "white" {}
         _ShadeMapStrength("Shade Map Strength", Range(0,1)) = 0
         _ControlMap("Control Map (R Shadow G Feather B Spec A Rim)", 2D) = "gray" {}
