@@ -15,6 +15,7 @@ public class ToonShaderGUI : ShaderGUI
 
     private bool showBaseColors = true;
     private bool showAnimePalette = true;
+    private bool showAiAssetMaps = true;
     private bool showShading = true;
     private bool showAnimeLight = true;
     private bool showSpecular = true;
@@ -36,6 +37,7 @@ public class ToonShaderGUI : ShaderGUI
 
         DrawBaseColorSection();
         DrawAnimePaletteSection();
+        DrawAiAssetMapSection();
         DrawShadingSection();
         DrawAnimeLightSection();
         DrawSpecularSection();
@@ -75,6 +77,32 @@ public class ToonShaderGUI : ShaderGUI
             DrawProperty("_ShadeSaturation", "阴影饱和度增强（Shade Saturation）");
             DrawProperty("_LitColorBoost", "亮部颜色增强（Lit Color Boost）");
             EditorGUILayout.HelpBox("自动配色会基于基础色生成带色相偏移的动漫阴影，减少白模灰阶感。", MessageType.None);
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        EditorGUILayout.Space();
+    }
+
+    private void DrawAiAssetMapSection()
+    {
+        showAiAssetMaps = EditorGUILayout.BeginFoldoutHeaderGroup(showAiAssetMaps, "AI Asset Maps");
+        if (showAiAssetMaps)
+        {
+            EditorGUI.indentLevel++;
+            DrawProperty("_ShadeMap", "Shade Map (阴影色贴图)");
+            DrawProperty("_ShadeMapStrength", "Shade Map Strength");
+            DrawProperty("_ControlMap", "Control Map (控制图)");
+            DrawProperty("_ControlMapStrength", "Control Map Strength");
+            DrawProperty("_ControlShadowStepRange", "Control Shadow Step Range");
+            DrawProperty("_ControlFeatherRange", "Control Feather Range");
+            DrawProperty("_RampTexture", "Ramp Texture (阶调贴图)");
+            DrawProperty("_RampTextureStrength", "Ramp Texture Strength");
+            DrawProperty("_RampTextureOffset", "Ramp Texture Offset");
+            DrawProperty("_ShadowAntiFlicker", "Shadow Anti-Flicker");
+            EditorGUILayout.HelpBox(
+                "Shade Map controls local shadow color. Control Map uses R=shadow threshold, G=feather boost, B=specular mask, A=rim mask. Ramp Texture replaces hard shadow steps when its strength is above zero.",
+                MessageType.None);
             EditorGUI.indentLevel--;
         }
 

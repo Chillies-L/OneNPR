@@ -11,6 +11,16 @@ CBUFFER_START(UnityPerMaterial)
     float4 _2ndShadeTint;
     float _ShadeSaturation;
     float _LitColorBoost;
+    float4 _ShadeMap_ST;
+    float _ShadeMapStrength;
+    float4 _ControlMap_ST;
+    float _ControlMapStrength;
+    float _ControlShadowStepRange;
+    float _ControlFeatherRange;
+    float4 _RampTexture_ST;
+    float _RampTextureStrength;
+    float _RampTextureOffset;
+    float _ShadowAntiFlicker;
     float _BaseStep;
     float _BaseFeather;
     float _ShadeStep;

@@ -15,6 +15,18 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
         _ShadeSaturation("Shade Saturation Boost", Range(0,1)) = 0.25
         _LitColorBoost("Lit Color Boost", Range(0,0.5)) = 0.08
 
+        [Header(AI Asset Maps)]
+        _ShadeMap("Shade Map (Shadow Color Texture)", 2D) = "white" {}
+        _ShadeMapStrength("Shade Map Strength", Range(0,1)) = 0
+        _ControlMap("Control Map (R Shadow G Feather B Spec A Rim)", 2D) = "gray" {}
+        _ControlMapStrength("Control Map Strength", Range(0,1)) = 0
+        _ControlShadowStepRange("Control Shadow Step Range", Range(0,0.5)) = 0.15
+        _ControlFeatherRange("Control Feather Range", Range(0,0.25)) = 0.06
+        _RampTexture("Ramp Texture", 2D) = "gray" {}
+        _RampTextureStrength("Ramp Texture Strength", Range(0,1)) = 0
+        _RampTextureOffset("Ramp Texture Offset", Range(-1,1)) = 0
+        _ShadowAntiFlicker("Shadow Anti-Flicker", Range(0,1)) = 0.35
+
         [Header(Shading Control)]
         _BaseStep("Base Shadow Step", Range(0,1)) = 0.5
         _BaseFeather("Base Shadow Feather", Range(0,0.5)) = 0.05
@@ -99,6 +111,12 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
 
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap);
+            TEXTURE2D(_ShadeMap);
+            SAMPLER(sampler_ShadeMap);
+            TEXTURE2D(_ControlMap);
+            SAMPLER(sampler_ControlMap);
+            TEXTURE2D(_RampTexture);
+            SAMPLER(sampler_RampTexture);
 
             struct Attributes
             {
@@ -123,7 +141,7 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
                 output.positionHCS = posInputs.positionCS;
                 output.positionWS = posInputs.positionWS;
                 output.normalWS = normInputs.normalWS;
-                output.uv = TRANSFORM_TEX(input.uv, _BaseMap);
+                output.uv = input.uv;
                 return output;
             }
 
@@ -159,16 +177,43 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
                 return SafeNormalize(lerp(sceneLightDirWS, virtualLight, _UseVirtualLight), virtualLight);
             }
 
-            float3 ApplyThreeColorToon(float3 baseColor, float NdotL)
+            float4 SampleControlMap(float2 uv)
+            {
+                return SAMPLE_TEXTURE2D(_ControlMap, sampler_ControlMap, TRANSFORM_TEX(uv, _ControlMap));
+            }
+
+            float3 ApplyRampTexture(float3 litColor, float3 shade1Color, float3 shade2Color, float halfLambert)
+            {
+                float rampU = saturate(halfLambert + _RampTextureOffset);
+                float3 rampSample = SAMPLE_TEXTURE2D(_RampTexture, sampler_RampTexture, float2(rampU, 0.5)).rgb;
+                float rampValue = saturate(dot(rampSample, float3(0.299, 0.587, 0.114)));
+                float3 darkToMid = lerp(shade2Color, shade1Color, saturate(rampValue * 2.0));
+                return lerp(darkToMid, litColor, saturate((rampValue - 0.5) * 2.0));
+            }
+
+            float3 ApplyThreeColorToon(float3 baseColor, float NdotL, float2 uv, float4 controlMap)
             {
                 float halfLambert = NdotL * 0.5 + 0.5;
-                float toShade1 = 1.0 - smoothstep(_BaseStep - _BaseFeather, _BaseStep + _BaseFeather, halfLambert);
-                float toShade2 = 1.0 - smoothstep(_ShadeStep - _ShadeFeather, _ShadeStep + _ShadeFeather, halfLambert);
+                float controlStrength = saturate(_ControlMapStrength);
+                float shadowStepOffset = (controlMap.r - 0.5) * _ControlShadowStepRange * controlStrength;
+                float featherBoost = controlMap.g * _ControlFeatherRange * controlStrength;
+                float baseFeather = _BaseFeather + featherBoost;
+                float shadeFeather = _ShadeFeather + featherBoost;
+                float baseStep = saturate(_BaseStep + shadowStepOffset);
+                float shadeStep = saturate(_ShadeStep + shadowStepOffset);
+                float toShade1 = 1.0 - smoothstep(baseStep - baseFeather, baseStep + baseFeather, halfLambert);
+                float toShade2 = 1.0 - smoothstep(shadeStep - shadeFeather, shadeStep + shadeFeather, halfLambert);
                 float3 litColor = saturate(baseColor * (1.0 + _LitColorBoost));
                 float3 shade1Color = BuildAnimeShade(baseColor, baseColor * _1stShadeColor.rgb, _1stShadeTint.rgb, 0.72);
                 float3 shade2Color = BuildAnimeShade(baseColor, baseColor * _2ndShadeColor.rgb, _2ndShadeTint.rgb, 0.46);
+                float3 shadeMap = SAMPLE_TEXTURE2D(_ShadeMap, sampler_ShadeMap, TRANSFORM_TEX(uv, _ShadeMap)).rgb;
+                float3 shadeMapTint = lerp(float3(1.0, 1.0, 1.0), shadeMap, saturate(_ShadeMapStrength));
+                shade1Color *= shadeMapTint;
+                shade2Color *= shadeMapTint;
                 float3 shadeColor = lerp(shade1Color, shade2Color, toShade2);
-                return lerp(litColor, shadeColor, toShade1);
+                float3 steppedColor = lerp(litColor, shadeColor, toShade1);
+                float3 rampColor = ApplyRampTexture(litColor, shade1Color, shade2Color, halfLambert);
+                return lerp(steppedColor, rampColor, saturate(_RampTextureStrength));
             }
 
             float ComputeToonSpecular(float3 normalWS, float3 viewDirWS, float3 lightDirWS)
@@ -196,7 +241,7 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
 
             float4 ToonFragment(Varyings input) : SV_Target
             {
-                float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+                float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(input.uv, _BaseMap));
                 float3 albedo = baseMap.rgb * _BaseColor.rgb;
                 float3 normalWS = normalize(input.normalWS);
                 float3 viewDirWS = normalize(GetWorldSpaceViewDir(input.positionWS));
@@ -206,11 +251,15 @@ Shader "Custom/NPR/Toon_Character_ImprovedOutline"
                 float3 lightColor = mainLight.color;
                 float lightAttenuation = mainLight.distanceAttenuation;
                 float NdotL = dot(normalWS, lightDirWS);
-                float3 diffuse = ApplyThreeColorToon(albedo, NdotL);
+                float4 controlMap = SampleControlMap(input.uv);
+                float controlStrength = saturate(_ControlMapStrength);
+                float specularControl = lerp(1.0, saturate(controlMap.b * 2.0), controlStrength);
+                float rimControl = lerp(1.0, controlMap.a, controlStrength);
+                float3 diffuse = ApplyThreeColorToon(albedo, NdotL, input.uv, controlMap);
                 diffuse = ApplyLightColorInfluence(diffuse, lightColor) * lightAttenuation;
-                float specular = ComputeToonSpecular(normalWS, viewDirWS, lightDirWS);
+                float specular = ComputeToonSpecular(normalWS, viewDirWS, lightDirWS) * specularControl;
                 float3 specularContribution = ApplyLightColorInfluence(_SpecularColor.rgb * specular, lightColor);
-                float3 rimContribution = ComputeRimLight(normalWS, viewDirWS, NdotL);
+                float3 rimContribution = ComputeRimLight(normalWS, viewDirWS, NdotL) * rimControl;
 
                 #ifdef _ADDITIONAL_LIGHTS
                 uint pixelLightCount = GetAdditionalLightsCount();

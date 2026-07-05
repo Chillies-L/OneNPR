@@ -37,6 +37,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0335f09b368cd874ab83fcc5afbfa3e1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ControlMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -73,6 +77,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 5abac2c0b0979b346b3e042ba0b9a9b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,6 +115,9 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ControlFeatherRange: 0.06
+    - _ControlMapStrength: 0
+    - _ControlShadowStepRange: 0.15
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -135,6 +150,8 @@ Material:
     - _OutlineZOffset: 0.035
     - _Parallax: 0.005
     - _QueueOffset: 0
+    - _RampTextureOffset: 0
+    - _RampTextureStrength: 0
     - _ReceiveShadows: 1
     - _RimFeather: 0.014
     - _RimIntensity: 0.75
@@ -142,8 +159,10 @@ Material:
     - _RimPower: 2.2
     - _RimThreshold: 0.46
     - _ShadeFeather: 0.003
+    - _ShadeMapStrength: 0
     - _ShadeSaturation: 0.72
     - _ShadeStep: 0.33
+    - _ShadowAntiFlicker: 0.35
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularFeather: 0.003
