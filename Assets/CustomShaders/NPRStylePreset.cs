@@ -77,6 +77,13 @@ public class NPRStylePreset : ScriptableObject
         public Color secondShadeTint = new Color(0.42f, 0.38f, 0.66f, 1f);
         public float shadeSaturation = 0.4f;
         public float litColorBoost = 0.1f;
+        public float shadeMapStrength = 0f;
+        public float controlMapStrength = 0f;
+        public float controlShadowStepRange = 0.15f;
+        public float controlFeatherRange = 0.06f;
+        public float rampTextureStrength = 0f;
+        public float rampTextureOffset = 0f;
+        public float shadowAntiFlicker = 0.35f;
         public float baseStep = 0.56f;
         public float baseFeather = 0.01f;
         public float shadeStep = 0.33f;
@@ -127,6 +134,13 @@ public class NPRStylePreset : ScriptableObject
                 secondShadeTint = new Color(0.38f, 0.26f, 0.68f, 1f),
                 shadeSaturation = 0.72f,
                 litColorBoost = 0.2f,
+                shadeMapStrength = 0f,
+                controlMapStrength = 0f,
+                controlShadowStepRange = 0.16f,
+                controlFeatherRange = 0.04f,
+                rampTextureStrength = 0f,
+                rampTextureOffset = 0f,
+                shadowAntiFlicker = 0.28f,
                 baseStep = 0.58f,
                 baseFeather = 0.004f,
                 shadeStep = 0.33f,
@@ -168,6 +182,13 @@ public class NPRStylePreset : ScriptableObject
                 secondShadeTint = new Color(0.42f, 0.05f, 0.08f, 1f),
                 shadeSaturation = 0.55f,
                 litColorBoost = 0.16f,
+                shadeMapStrength = 0f,
+                controlMapStrength = 0f,
+                controlShadowStepRange = 0.18f,
+                controlFeatherRange = 0.045f,
+                rampTextureStrength = 0f,
+                rampTextureOffset = 0f,
+                shadowAntiFlicker = 0.35f,
                 baseStep = 0.54f,
                 baseFeather = 0.006f,
                 shadeStep = 0.27f,
@@ -209,6 +230,13 @@ public class NPRStylePreset : ScriptableObject
             SetColor(material, "_2ndShadeTint", secondShadeTint);
             SetFloat(material, "_ShadeSaturation", shadeSaturation);
             SetFloat(material, "_LitColorBoost", litColorBoost);
+            SetFloat(material, "_ShadeMapStrength", shadeMapStrength);
+            SetFloat(material, "_ControlMapStrength", controlMapStrength);
+            SetFloat(material, "_ControlShadowStepRange", controlShadowStepRange);
+            SetFloat(material, "_ControlFeatherRange", controlFeatherRange);
+            SetFloat(material, "_RampTextureStrength", rampTextureStrength);
+            SetFloat(material, "_RampTextureOffset", rampTextureOffset);
+            SetFloat(material, "_ShadowAntiFlicker", shadowAntiFlicker);
             SetFloat(material, "_BaseStep", baseStep);
             SetFloat(material, "_BaseFeather", baseFeather);
             SetFloat(material, "_ShadeStep", shadeStep);
@@ -253,12 +281,29 @@ public class NPRStylePreset : ScriptableObject
     public class PostProcessSettings
     {
         public bool enabled = true;
+        public bool outlineEnabled = true;
+        public Color outlineColor = Color.black;
+        [Range(0f, 1f)] public float outlineIntensity = 0.85f;
+        [Range(0.5f, 4f)] public float outlineThickness = 1.15f;
+        [Range(0.0005f, 0.08f)] public float depthThreshold = 0.015f;
+        [Range(0.02f, 1f)] public float normalThreshold = 0.22f;
+        [Range(0.01f, 0.5f)] public float colorThreshold = 0.12f;
+        public bool useDepth = true;
+        public bool useNormals = true;
+        public bool useColor = false;
+        public bool colorGradingEnabled = true;
         [Range(0f, 1f)] public float posterizeStrength = 0.75f;
         [Range(0.5f, 2.5f)] public float contrast = 1.25f;
         [Range(0f, 2f)] public float saturation = 1.25f;
         [Range(0f, 1f)] public float shadowCrush = 0.18f;
-        [Range(0f, 1f)] public float halftoneStrength = 0.15f;
-        [Range(8f, 160f)] public float halftoneScale = 72f;
+        public bool halftoneEnabled = true;
+        public NPRStylePostProcessFeature.PatternShadingType patternType = NPRStylePostProcessFeature.PatternShadingType.Dots;
+        [Range(0f, 1f)] public float halftoneStrength = 0.65f;
+        [Range(1f, 50f)] public float halftoneScale = 10f;
+        [Range(0f, 3.14159f)] public float patternAngle = 0.785398f;
+        [Range(0f, 2f)] public float patternIntensity = 0.8f;
+        public Color patternColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+        [Range(0f, 1f)] public float patternLumaThreshold = 0.5f;
         public Color accentColor = new Color(1f, 0.2f, 0.05f, 1f);
 
         public static PostProcessSettings CreateBoldInkComic()
@@ -266,12 +311,29 @@ public class NPRStylePreset : ScriptableObject
             return new PostProcessSettings
             {
                 enabled = true,
+                outlineEnabled = true,
+                outlineColor = Color.black,
+                outlineIntensity = 0.85f,
+                outlineThickness = 1.2f,
+                depthThreshold = 0.014f,
+                normalThreshold = 0.2f,
+                colorThreshold = 0.12f,
+                useDepth = true,
+                useNormals = true,
+                useColor = false,
+                colorGradingEnabled = true,
                 posterizeStrength = 0.82f,
                 contrast = 1.34f,
                 saturation = 1.38f,
                 shadowCrush = 0.22f,
-                halftoneStrength = 0.18f,
-                halftoneScale = 68f,
+                halftoneEnabled = true,
+                patternType = NPRStylePostProcessFeature.PatternShadingType.Dots,
+                halftoneStrength = 0.65f,
+                halftoneScale = 10f,
+                patternAngle = 0.785398f,
+                patternIntensity = 0.8f,
+                patternColor = new Color(0.1f, 0.1f, 0.1f, 1f),
+                patternLumaThreshold = 0.5f,
                 accentColor = new Color(0.1f, 0.85f, 1f, 1f),
             };
         }
@@ -281,12 +343,29 @@ public class NPRStylePreset : ScriptableObject
             return new PostProcessSettings
             {
                 enabled = true,
+                outlineEnabled = true,
+                outlineColor = new Color(0.015f, 0.01f, 0.012f, 1f),
+                outlineIntensity = 1f,
+                outlineThickness = 1.05f,
+                depthThreshold = 0.012f,
+                normalThreshold = 0.18f,
+                colorThreshold = 0.1f,
+                useDepth = true,
+                useNormals = true,
+                useColor = false,
+                colorGradingEnabled = true,
                 posterizeStrength = 0.88f,
                 contrast = 1.48f,
                 saturation = 1.18f,
                 shadowCrush = 0.36f,
+                halftoneEnabled = false,
+                patternType = NPRStylePostProcessFeature.PatternShadingType.Hatching,
                 halftoneStrength = 0f,
-                halftoneScale = 84f,
+                halftoneScale = 14f,
+                patternAngle = 0.785398f,
+                patternIntensity = 0.8f,
+                patternColor = Color.black,
+                patternLumaThreshold = 0.42f,
                 accentColor = new Color(1f, 0.24f, 0.02f, 1f),
             };
         }
@@ -294,12 +373,29 @@ public class NPRStylePreset : ScriptableObject
         public void ApplyTo(NPRStylePostProcessFeature.StylePostProcessSettings target)
         {
             target.enabled = enabled;
+            target.outlineEnabled = outlineEnabled;
+            target.outlineColor = outlineColor;
+            target.outlineIntensity = outlineIntensity;
+            target.outlineThickness = outlineThickness;
+            target.depthThreshold = depthThreshold;
+            target.normalThreshold = normalThreshold;
+            target.colorThreshold = colorThreshold;
+            target.useDepth = useDepth;
+            target.useNormals = useNormals;
+            target.useColor = useColor;
+            target.colorGradingEnabled = colorGradingEnabled;
             target.posterizeStrength = posterizeStrength;
             target.contrast = contrast;
             target.saturation = saturation;
             target.shadowCrush = shadowCrush;
+            target.halftoneEnabled = halftoneEnabled;
+            target.patternType = patternType;
             target.halftoneStrength = halftoneStrength;
             target.halftoneScale = halftoneScale;
+            target.patternAngle = patternAngle;
+            target.patternIntensity = patternIntensity;
+            target.patternColor = patternColor;
+            target.patternLumaThreshold = patternLumaThreshold;
             target.accentColor = accentColor;
         }
     }
@@ -328,4 +424,3 @@ public class NPRStylePreset : ScriptableObject
         }
     }
 }
-

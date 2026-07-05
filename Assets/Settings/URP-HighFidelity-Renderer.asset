@@ -115,15 +115,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d28cd5c9ff94ba28a1253ad070ba02e, type: 3}
   m_Name: NPR Style Post Process
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   activePreset: {fileID: 11400000, guid: 4c96b57e41ce4dd09b84173b6c536233, type: 2}
   settings:
-    enabled: 0
+    enabled: 1
     renderPassEvent: 550
+    outlineEnabled: 1
+    outlineColor: {r: 0, g: 0, b: 0, a: 1}
+    outlineIntensity: 0.85
+    outlineThickness: 1.2
+    depthThreshold: 0.014
+    normalThreshold: 0.2
+    colorThreshold: 0.12
+    useDepth: 1
+    useNormals: 1
+    useColor: 0
+    colorGradingEnabled: 1
     posterizeStrength: 0.82
     contrast: 1.34
     saturation: 1.38
     shadowCrush: 0.22
-    halftoneStrength: 0.18
-    halftoneScale: 68
     accentColor: {r: 0.1, g: 0.85, b: 1, a: 1}
+    halftoneEnabled: 1
+    patternType: 1
+    halftoneStrength: 0.65
+    halftoneScale: 10
+    patternAngle: 0.785398
+    patternIntensity: 0.8
+    patternColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    patternLumaThreshold: 0.5

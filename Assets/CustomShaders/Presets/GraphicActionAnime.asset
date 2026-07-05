@@ -66,7 +66,11 @@ MonoBehaviour:
     contrast: 1.48
     saturation: 1.18
     shadowCrush: 0.36
+    patternType: 2
     halftoneStrength: 0
-    halftoneScale: 84
+    halftoneScale: 14
+    patternAngle: 0.785398
+    patternIntensity: 0.8
+    patternColor: {r: 0, g: 0, b: 0, a: 1}
+    patternLumaThreshold: 0.42
     accentColor: {r: 1, g: 0.24, b: 0.02, a: 1}
-

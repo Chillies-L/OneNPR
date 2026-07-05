@@ -131,7 +131,7 @@ public class NPR_DebugUIController : MonoBehaviour
 
         Text label = labelObj.AddComponent<Text>();
         label.text = text;
-        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         label.fontSize = size;
         label.fontStyle = style;
         label.color = Color.white;
@@ -199,7 +199,7 @@ public class NPR_DebugUIController : MonoBehaviour
         labelObj.transform.SetParent(toggleObj.transform, false);
         Text label = labelObj.AddComponent<Text>();
         label.text = labelText;
-        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         label.fontSize = fontSize;
         label.color = Color.white;
         label.alignment = TextAnchor.MiddleLeft;
@@ -244,7 +244,7 @@ public class NPR_DebugUIController : MonoBehaviour
         labelObj.transform.SetParent(buttonObj.transform, false);
         Text label = labelObj.AddComponent<Text>();
         label.text = labelText;
-        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         label.fontSize = fontSize;
         label.color = Color.white;
         label.alignment = TextAnchor.MiddleCenter;
@@ -288,7 +288,7 @@ public class NPR_DebugUIController : MonoBehaviour
         labelObj.transform.SetParent(sliderObj.transform, false);
         Text label = labelObj.AddComponent<Text>();
         label.text = labelText;
-        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         label.fontSize = fontSize - 2;
         label.color = Color.white;
         label.alignment = TextAnchor.MiddleLeft;

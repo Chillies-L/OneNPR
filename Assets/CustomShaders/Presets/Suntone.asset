@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c5a48de98c5f34e955e95e3b404953, type: 3}
+  m_Name: Suntone
+  m_EditorClassIdentifier: 
+  targetShader: {fileID: 4800000, guid: 69cb1a64cabc7034289702493d99f1d0, type: 3}
+  stylePreset: {fileID: 0}
+  fallbackPreset: 3
+  outputFolder: Assets/CustomShaders/GeneratedMaterials
+  preserveBaseMap: 1
+  preserveBaseColor: 1
+  preserveTextureScaleAndOffset: 1
+  processMeshFilterNormals: 1
+  vertexColorFormat: 0
+  debugNormalsProcessing: 0
+  rules: []

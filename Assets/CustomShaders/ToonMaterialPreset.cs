@@ -86,6 +86,7 @@ public static class ToonMaterialPreset
         SetColor(material, "_2ndShadeTint", new Color(0.55f, 0.48f, 0.72f, 1.0f));
         SetFloat(material, "_ShadeSaturation", 0.28f);
         SetFloat(material, "_LitColorBoost", 0.08f);
+        SetAssetMapDefaults(material, 0.38f);
         SetFloat(material, "_BaseStep", 0.53f);
         SetFloat(material, "_BaseFeather", 0.025f);
         SetFloat(material, "_ShadeStep", 0.31f);
@@ -106,6 +107,7 @@ public static class ToonMaterialPreset
         SetColor(material, "_2ndShadeTint", new Color(0.42f, 0.38f, 0.66f, 1.0f));
         SetFloat(material, "_ShadeSaturation", 0.38f);
         SetFloat(material, "_LitColorBoost", 0.06f);
+        SetAssetMapDefaults(material, 0.3f);
         SetFloat(material, "_BaseStep", 0.57f);
         SetFloat(material, "_BaseFeather", 0.006f);
         SetFloat(material, "_ShadeStep", 0.34f);
@@ -126,6 +128,7 @@ public static class ToonMaterialPreset
         SetColor(material, "_2ndShadeTint", Color.black);
         SetFloat(material, "_ShadeSaturation", 0.0f);
         SetFloat(material, "_LitColorBoost", 0.02f);
+        SetAssetMapDefaults(material, 0.32f);
         SetFloat(material, "_BaseStep", 0.6f);
         SetFloat(material, "_BaseFeather", 0.012f);
         SetFloat(material, "_ShadeStep", 0.36f);
@@ -146,6 +149,7 @@ public static class ToonMaterialPreset
         SetColor(material, "_2ndShadeTint", new Color(0.7f, 0.35f, 0.25f, 1.0f));
         SetFloat(material, "_ShadeSaturation", 0.35f);
         SetFloat(material, "_LitColorBoost", 0.12f);
+        SetAssetMapDefaults(material, 0.35f);
         SetFloat(material, "_BaseStep", 0.5f);
         SetFloat(material, "_BaseFeather", 0.01f);
         SetFloat(material, "_ShadeStep", 0.25f);
@@ -166,6 +170,7 @@ public static class ToonMaterialPreset
         SetColor(material, "_2ndShadeTint", new Color(0.42f, 0.60f, 0.84f, 1.0f));
         SetFloat(material, "_ShadeSaturation", 0.18f);
         SetFloat(material, "_LitColorBoost", 0.1f);
+        SetAssetMapDefaults(material, 0.45f);
         SetFloat(material, "_BaseStep", 0.48f);
         SetFloat(material, "_BaseFeather", 0.08f);
         SetFloat(material, "_ShadeStep", 0.24f);
@@ -183,6 +188,17 @@ public static class ToonMaterialPreset
         SetFloat(material, "_LightColorInfluence", lightColorInfluence);
         SetFloat(material, "_AmbientStrength", ambientStrength);
         SetFloat(material, "_AdditionalLightInfluence", additionalLightInfluence);
+    }
+
+    private static void SetAssetMapDefaults(Material material, float shadowAntiFlicker)
+    {
+        SetFloat(material, "_ShadeMapStrength", 0.0f);
+        SetFloat(material, "_ControlMapStrength", 0.0f);
+        SetFloat(material, "_ControlShadowStepRange", 0.15f);
+        SetFloat(material, "_ControlFeatherRange", 0.05f);
+        SetFloat(material, "_RampTextureStrength", 0.0f);
+        SetFloat(material, "_RampTextureOffset", 0.0f);
+        SetFloat(material, "_ShadowAntiFlicker", shadowAntiFlicker);
     }
 
     private static void SetSpecular(Material material, Color color, float size, float feather, float intensity)

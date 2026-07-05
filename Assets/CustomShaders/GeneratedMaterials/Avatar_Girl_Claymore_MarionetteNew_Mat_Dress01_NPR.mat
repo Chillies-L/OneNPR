@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Avatar_Girl_Claymore_MarionetteNew_Mat_Dress01_NPR
+  m_Shader: {fileID: 4800000, guid: 69cb1a64cabc7034289702493d99f1d0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _OUTLINEMODE_HYBRID
+  m_InvalidKeywords:
+  - _OUTLINERENDERREVERSEPASS_ON
+  - _OUTLINEUSEVERTEXCOLORNORMALS_ON
+  - _OUTLINEUSEWORLDSHELL_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 0f369d8a7800b4049b88bb2d07371f79, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ControlMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OutlineWidthMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AdditionalLightInfluence: 0.1
+    - _AmbientStrength: 0.15
+    - _AutoShadeColor: 0.65
+    - _BaseFeather: 0.01
+    - _BaseStep: 0.5
+    - _ControlFeatherRange: 0.05
+    - _ControlMapStrength: 0
+    - _ControlShadowStepRange: 0.15
+    - _Cull: 2
+    - _LightColorInfluence: 0.15
+    - _LitColorBoost: 0.12
+    - _OutlineDirectionalBias: 0
+    - _OutlineMaxWidth: 0.085
+    - _OutlineMinWidth: 0.0001
+    - _OutlineMiterMaxScale: 1.8
+    - _OutlineMiterMinDot: 0.35
+    - _OutlineMiterStrength: 1
+    - _OutlineMode: 2
+    - _OutlineRenderReversePass: 1
+    - _OutlineReverseWidthScale: 0.55
+    - _OutlineReverseZOffset: 0
+    - _OutlineUseVertexColorNormals: 1
+    - _OutlineUseWorldShell: 1
+    - _OutlineVertexColorNormalFormat: 0
+    - _OutlineVertexNormalBlend: 1
+    - _OutlineWidth: 0.007
+    - _OutlineZOffset: 0.02
+    - _RampTextureOffset: 0
+    - _RampTextureStrength: 0
+    - _RimFeather: 0.04
+    - _RimIntensity: 0.4
+    - _RimLightAlign: 0.35
+    - _RimPower: 4
+    - _RimThreshold: 0.6
+    - _ShadeFeather: 0.01
+    - _ShadeMapStrength: 0
+    - _ShadeSaturation: 0.35
+    - _ShadeStep: 0.25
+    - _ShadowAntiFlicker: 0.35
+    - _SpecularFeather: 0.01
+    - _SpecularIntensity: 0.8
+    - _SpecularSize: 0.1
+    - _UseVirtualLight: 1
+    m_Colors:
+    - _1stShadeColor: {r: 0.9, g: 0.7, b: 0.6, a: 1}
+    - _1stShadeTint: {r: 0.95, g: 0.72, b: 0.55, a: 1}
+    - _2ndShadeColor: {r: 0.6, g: 0.4, b: 0.3, a: 1}
+    - _2ndShadeTint: {r: 0.7, g: 0.35, b: 0.25, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineBiasDirection: {r: 1, g: 1, b: 0, a: 0}
+    - _OutlineColor: {r: 0.1, g: 0.05, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 0.9, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _VirtualLightDirection: {r: 0.45, g: 0.75, b: 0.45, a: 0}
+  m_BuildTextureStacks: []
